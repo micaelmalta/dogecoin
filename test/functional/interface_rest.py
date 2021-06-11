@@ -207,7 +207,6 @@ class RESTTest (BitcoinTestFramework):
 
         self.nodes[0].generate(1)  # generate block to not affect upcoming tests
         self.sync_all()
-        bb_hash = self.nodes[0].getbestblockhash()
 
         self.log.info("Test the /block, /blockhashbyheight and /headers URIs")
         bb_hash = self.nodes[0].getbestblockhash()
@@ -229,10 +228,9 @@ class RESTTest (BitcoinTestFramework):
 
         # Compare with block header
         response_header = self.test_rest_request("/headers/1/{}".format(bb_hash), req_type=ReqType.BIN, ret_type=RetType.OBJ)
-        headerLen = int(response_header.getheader('content-length'))
-        assert_greater_than(headerLen, BLOCK_HEADER_SIZE)
+        assert_equal(int(response_header.getheader('content-length')), BLOCK_HEADER_SIZE)
         response_header_bytes = response_header.read()
-        assert_equal(response_bytes[:headerLen], response_header_bytes)
+        assert_equal(response_bytes[:BLOCK_HEADER_SIZE], response_header_bytes)
 
         # Check block hex format
         response_hex = self.test_rest_request("/block/{}".format(bb_hash), req_type=ReqType.HEX, ret_type=RetType.OBJ)
