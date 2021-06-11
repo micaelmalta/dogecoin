@@ -129,10 +129,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand()) {
         const int32_t nOverrideVersion = gArgs.GetArg("-blockversion", pblock->GetBaseVersion());
-        if (nOverrideVersion >= CPureBlockHeader::VERSION_AUXPOW) {
-            throw std::runtime_error(strprintf("%s: block version too high: %d", __func__, nOverrideVersion));
-        }
-        pblock->SetBaseVersion(nOverrideVersion, nChainId);
+        pblock->SetBaseVersion(nOverrideVersion);
     }
 
     pblock->nTime = GetAdjustedTime();

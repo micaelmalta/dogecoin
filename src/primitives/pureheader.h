@@ -89,7 +89,7 @@ public:
      * @param nBaseVersion The base version.
      * @param nChainId The auxpow chain ID.
      */
-    void SetBaseVersion(int32_t nBaseVersion, int32_t nChainId);
+    void SetBaseVersion(int32_t nBaseVersion);
 
     /**
      * Extract the chain ID.
