@@ -9,11 +9,9 @@
 #include <hash.h>
 #include <util/strencodings.h>
 
-void CPureBlockHeader::SetBaseVersion(int32_t nBaseVersion, int32_t nChainId)
+void CPureBlockHeader::SetBaseVersion(int32_t nBaseVersion)
 {
-    assert(nBaseVersion >= 1 && nBaseVersion < VERSION_AUXPOW);
-    assert(!IsAuxpow());
-    nVersion = nBaseVersion | (nChainId * VERSION_CHAIN_START);
+    nVersion = nBaseVersion;
 }
 
 uint256 CPureBlockHeader::GetHash() const
