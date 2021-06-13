@@ -28,6 +28,8 @@ global_task_template: &GLOBAL_TASK_TEMPLATE
     folder: "/tmp/cirrus-ci-build/depends/sdk-sources"
   depends_releases_cache:
     folder: "/tmp/cirrus-ci-build/releases"
+  qa_assets_cache:
+    folder: "/tmp/cirrus-ci-build/ci/scratch/qa-assets"
   merge_base_script:
     - if [ "$CIRRUS_PR" = "" ]; then exit 0; fi
     - bash -c "$PACKAGE_MANAGER_INSTALL git"
@@ -147,7 +149,7 @@ task:
   name: '32-bit + dash  [GOAL: install]  [CentOS 7]  [gui]'
   << : *GLOBAL_TASK_TEMPLATE
   container:
-    image: ubuntu:bionic
+    image: centos:7
   env:
     FILE_ENV: "./ci/test/00_setup_env_i686_centos.sh"
 
@@ -155,6 +157,6 @@ task:
   name: 'x86_64 Linux  [GOAL: install]  [xenial]  [no wallet]'
   << : *GLOBAL_TASK_TEMPLATE
   container:
-    image: ubuntu:bionic
+    image: ubuntu:16.04
   env:
     FILE_ENV: "./ci/test/00_setup_env_native_nowallet.sh"
