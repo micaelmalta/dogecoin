@@ -30,6 +30,7 @@ global_task_template: &GLOBAL_TASK_TEMPLATE
   qa_assets_cache:
     folder: "/tmp/cirrus-ci-build/ci/scratch/qa-assets"
   ci_script:
+    - export LC_ALL=C; unset LANGUAGE
     - ./ci/test_run_all.sh
   clean_script:
     - rm -rf /tmp/cirrus-ci-build/ci/scratch/qa-assets/.git
