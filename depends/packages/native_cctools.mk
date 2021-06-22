@@ -50,7 +50,7 @@ define $(package)_preprocess_cmds
   CC=$($(package)_cc) CXX=$($(package)_cxx) INSTALLPREFIX=$($(package)_extract_dir) ./libtapi/build.sh && \
   CC=$($(package)_cc) CXX=$($(package)_cxx) INSTALLPREFIX=$($(package)_extract_dir) ./libtapi/install.sh && \
   sed -i.old "/define HAVE_PTHREADS/d" $($(package)_build_subdir)/ld64/src/ld/InputFiles.h && \
-  pwd && ls -l && $($(package)_build_subdir)/tools/fix_unistd_issue.sh
+  tools/fix_unistd_issue.sh
 endef
 
 define $(package)_config_cmds
