@@ -21,12 +21,12 @@ jobs:
       fail-fast: false
       matrix:
         name:
-          - armhf-linux
-          - i686-linux
-          - i686-win
-          - x86_64-linux-dbg
-          - x86_64-linux-nowallet
-          - x86_64-win
+#          - armhf-linux
+#          - i686-linux
+#          - i686-win
+#          - x86_64-linux-dbg
+#          - x86_64-linux-nowallet
+#          - x86_64-win
           - cross-mac
         include:
           - name: i686-linux
@@ -90,7 +90,7 @@ jobs:
           - name: cross-mac
             host: x86_64-apple-darwin11
             os: ubuntu-20.04
-            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libbz2-dev libtiff-tools python-dev python-setuptools
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libbz2-dev libtiff-tools python3-dev python3-setuptools
             postinstall: |
               export SDK_URL=https://bitcoincore.org/depends-sources/sdks
               export OSX_SDK=10.11
