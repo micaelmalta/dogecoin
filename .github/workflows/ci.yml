@@ -91,12 +91,9 @@ jobs:
             host: x86_64-apple-darwin11
             os: ubuntu-20.04
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libbz2-dev libtiff-tools python3-dev python3-setuptools
-            postinstall: |
+            prebuild: |
               export SDK_URL=https://bitcoincore.org/depends-sources/sdks
               export OSX_SDK=10.11
-              env
-              pwd
-              ls -l
               curl --location --fail $SDK_URL/MacOSX${OSX_SDK}.sdk.tar.gz -o depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz
               tar -C depends/SDKs -xf depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz
             run-tests: true
@@ -124,6 +121,10 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Pre build
+        if: ${{ matrix.prebuild }}
+        run: ${{ matrix.prebuild }}
 
       - name: Dependency cache
         uses: actions/cache@v2
