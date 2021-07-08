@@ -13,7 +13,7 @@ AC_DEFUN([BITCOIN_FIND_BDB53],[
     bdbpath=X
     bdb53path=X
     bdbdirlist=
-    for _vn in 5.3 53 5 4.8 48 4 ''; do
+    for _vn in 5.3 53 ''; do
       for _pfx in b lib ''; do
         bdbdirlist="$bdbdirlist ${_pfx}db${_vn}"
       done
@@ -23,8 +23,8 @@ AC_DEFUN([BITCOIN_FIND_BDB53],[
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
         #include <${searchpath}db_cxx.h>
       ]],[[
-        #if !((DB_VERSION_MAJOR == 4 && DB_VERSION_MINOR >= 8) || DB_VERSION_MAJOR > 4)
-          #error "failed to find bdb 4.8+"
+        #if !((DB_VERSION_MAJOR == 5 && DB_VERSION_MINOR >= 3) || DB_VERSION_MAJOR > 5)
+          #error "failed to find bdb 5.3+"
         #endif
       ]])],[
         if test "x$bdbpath" = "xX"; then
@@ -36,8 +36,8 @@ AC_DEFUN([BITCOIN_FIND_BDB53],[
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
         #include <${searchpath}db_cxx.h>
       ]],[[
-        #if !(DB_VERSION_MAJOR == 4 && DB_VERSION_MINOR == 8)
-          #error "failed to find bdb 4.8"
+        #if !(DB_VERSION_MAJOR == 5 && DB_VERSION_MINOR == 3)
+          #error "failed to find bdb 5.3"
         #endif
       ]])],[
         bdb53path="${searchpath}"
