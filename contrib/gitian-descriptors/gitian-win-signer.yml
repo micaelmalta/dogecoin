@@ -1,7 +1,7 @@
 ---
 name: "dogecoin-win-signer"
 suites:
-- "focal"
+- "trusty"
 architectures:
 - "amd64"
 packages:
