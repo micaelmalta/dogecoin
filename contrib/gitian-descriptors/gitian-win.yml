@@ -2,7 +2,7 @@
 name: "dogecoin-win-1.14"
 enable_cache: true
 suites:
-- "trusty"
+- "focal"
 architectures:
 - "amd64"
 packages:

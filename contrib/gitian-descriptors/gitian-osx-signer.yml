@@ -1,7 +1,7 @@
 ---
 name: "dogecoin-dmg-signer"
 suites:
-- "trusty"
+- "focal"
 architectures:
 - "amd64"
 packages:
