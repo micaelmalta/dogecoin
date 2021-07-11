@@ -1,0 +1,57 @@
+### Global defaults
+
+# Build the branch if it is integration, a pull request, or ends in -ci/-cic (-cic targets only Cirrus CI)
+only_if: $CIRRUS_PR != ''
+
+timeout_in: 120m  # https://cirrus-ci.org/faq/#instance-timed-out
+container:
+  # https://cirrus-ci.org/faq/#are-there-any-limits
+  # Each project has 16 CPU in total, assign 2 to each container, so that 8 tasks run in parallel
+  cpu: 8
+  memory: 8G  # Set to 8GB to avoid OOM. https://cirrus-ci.org/guide/linux/#linux-containers
+  kvm: true  # Use kvm to avoid spurious CI failures in the default virtualization cluster, see https://github.com/bitcoin/bitcoin/issues/20093
+env:
+  PACKAGE_MANAGER_INSTALL: "apt-get update && apt-get install -y"
+
+global_compute_template: &GLOBAL_COMPUTE_TEMPLATE
+  image_project: cirrus-images
+  image: family/docker-builder
+  platform: linux
+  cpu: 8
+  memory: 8G
+
+# https://cirrus-ci.org/guide/tips-and-tricks/#sharing-configuration-between-tasks
+global_task_template: &GLOBAL_TASK_TEMPLATE
+  prescript:
+    - bash -c "$PACKAGE_MANAGER_INSTALL git"
+  script:
+    - git clone https://github.com/micaelmalta/gitian-builder-dogecoin
+    - cd gitian-builder-dogecoin
+    - echo 'y' | ./gitian-build.sh --init
+    - ./gitian-build.sh --setup
+    - ./gitian-build.sh -j 8 -m 8192 -u $CIRRUS_REPO_CLONE_URL --commit -o $OS --build cirrus $CIRRUS_CHANGE_IN_REPO
+
+task:
+  name: 'LINUX'
+  << : *GLOBAL_TASK_TEMPLATE
+  env:
+      OS: 'l'
+  compute_engine_instance:
+    << : *GLOBAL_COMPUTE_TEMPLATE
+
+
+task:
+  name: 'WINDOWS'
+  << : *GLOBAL_TASK_TEMPLATE
+  env:
+      OS: 'w'
+  compute_engine_instance:
+    <<: *GLOBAL_COMPUTE_TEMPLATE
+
+task:
+  name: 'MAC'
+  << : *GLOBAL_TASK_TEMPLATE
+  env:
+      OS: 'x'
+  compute_engine_instance:
+    <<: *GLOBAL_COMPUTE_TEMPLATE
