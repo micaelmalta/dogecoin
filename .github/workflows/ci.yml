@@ -38,6 +38,9 @@ jobs:
             dep-opts: ""
             config-opts: "--enable-gui --enable-reduce-exports"
             goal: deploy
+            prerequisite-environment-variables: ['CPATH=`xcrun --show-sdk-path`/usr/include','LIBRARY_PATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib:/opt/local/lib"']
+            depends-environment-variables: [ 'BDB_PREFIX="/usr/local/BerkeleyDB.5.1"','BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"','BDB_CFLAGS="-I${BDB_PREFIX}/include"' ]
+            brew-packages: "autoconf automake libtool miniupnpc openssl pkg-config protobuf qt5 zeromq qrencode librsvg"
           - name: macos11
             host: x86_64-apple-darwin
             os: macos-11
@@ -45,12 +48,19 @@ jobs:
             dep-opts: ""
             config-opts: "--enable-gui --enable-reduce-exports"
             goal: deploy
-            depends-environment-variables: [BDB_PREFIX="/usr/local/BerkeleyDB.5.1",BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx",BDB_CFLAGS="-I${BDB_PREFIX}/include"]
+            prerequisite-environment-variables: ['CPATH=`xcrun --show-sdk-path`/usr/include','LIBRARY_PATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib:/opt/local/lib"']
+            depends-environment-variables: ['BDB_PREFIX="/usr/local/BerkeleyDB.5.1"','BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"','BDB_CFLAGS="-I${BDB_PREFIX}/include"']
+            brew-packages: "autoconf automake libtool miniupnpc openssl pkg-config protobuf qt5 zeromq qrencode librsvg"
 
 
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Prerequisite environment variable
+        if: ${{ matrix.prerequisite-environment-variables }}
+        run: |
+          export ${{ matrix.prerequisite-environment-variables }}
+
       - name: Add architecture
         if: ${{ matrix.arch }}
         run: |
@@ -62,6 +72,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
           sudo apt-get install ${{ matrix.packages }}
+
+      - name: BREW packages
+        if: ${{ matrix.brew-packages }}
+        run: |
+          brew install ${{ matrix.brew-packages }}
 
       - name: Post install
         if: ${{ matrix.postinstall }}
