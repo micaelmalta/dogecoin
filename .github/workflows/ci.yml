@@ -29,7 +29,6 @@ jobs:
       matrix:
         name:
           - macos10.15
-          - macos11
         include:
           - name: macos10.15
             host: x86_64-apple-darwin
