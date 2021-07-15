@@ -105,6 +105,9 @@ jobs:
       - name: Build depends
         if: ${{ matrix.dep-opts }}
         run: |
+          env
+          ${{ matrix.prerequisite-environment-variables }}
+          env
           make $MAKEJOBS -C depends HOST=${{ matrix.host }} ${{ matrix.dep-opts }}
 
       - name: Export environment variable
