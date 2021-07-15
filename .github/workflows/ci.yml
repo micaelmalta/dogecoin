@@ -39,7 +39,7 @@ jobs:
             goal: deploy
             prerequisite-environment-variables: |
               export CPATH=`xcrun --show-sdk-path`/usr/include
-              export LIBRARY_PATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib:/opt/local/lib"
+              export LIBRARY_PATH=`xcrun --show-sdk-path`/usr/lib
               env
             depends-environment-variables: |
               export BDB_PREFIX="/usr/local/BerkeleyDB.5.1"
