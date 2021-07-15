@@ -32,7 +32,7 @@ jobs:
         include:
           - name: macos11
             host: x86_64-apple-darwin
-            os: macos11
+            os: macos-11
             run-tests: false
             dep-opts: "bdb boost"
             config-opts: "--enable-gui --enable-reduce-exports"
