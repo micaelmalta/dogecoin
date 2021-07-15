@@ -34,7 +34,7 @@ jobs:
             host: x86_64-apple-darwin
             os: macos-10.15
             run-tests: false
-            dep-opts: "bdb boost"
+            dep-opts: "bdb boost ccache"
             config-opts: "--enable-gui --enable-reduce-exports"
             goal: deploy
             prerequisite-environment-variables: |
@@ -105,9 +105,7 @@ jobs:
       - name: Build depends
         if: ${{ matrix.dep-opts }}
         run: |
-          env
           ${{ matrix.prerequisite-environment-variables }}
-          env
           make $MAKEJOBS -C depends HOST=${{ matrix.host }} ${{ matrix.dep-opts }}
 
       - name: Export environment variable
