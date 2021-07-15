@@ -59,8 +59,9 @@ jobs:
       - name: Prerequisite environment variable
         if: ${{ matrix.prerequisite-environment-variables }}
         run: |
-          export ${{ matrix.prerequisite-environment-variables }}
-
+          export ${{ matrix.environment-variable }}
+        with:
+          environment-variable: ${{ matrix.prerequisite-environment-variables}}
       - name: Add architecture
         if: ${{ matrix.arch }}
         run: |
@@ -117,7 +118,9 @@ jobs:
       - name: Export environment variable
         if: ${{ matrix.depends-environment-variables }}
         run: |
-          export ${{ matrix.depends-environment-variables }}
+          export ${{ matrix.environment-variable }}
+        with:
+          environment-variable: ${{ matrix.depends-environment-variables}}
 
       - name: CCache
         uses: actions/cache@v2
